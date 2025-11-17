@@ -38,7 +38,7 @@
   
   <title>Formal Abductive Latent Explanations for Prototype-Based Networks</title>
   
-  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> -->
+  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
   <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
@@ -187,6 +187,66 @@
     </div>
   </section>
 
+  <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered">
+      <div class="column is-full-width">
+        <h2 class="title is-3 has-text-centered">Methodology: Logical Constraints in Latent Space</h2>
+        
+        <div class="content has-text-justified">
+          <p>
+            Traditional Formal Explainable AI defines explanations as a subset of input features (pixels) that satisfy a precondition 
+            $\phi(x)$. However, pixel-level explanations often fail to capture high-level semantics. We propose 
+            <strong>Abductive Latent Explanations (ALEs)</strong>, which define preconditions on the 
+            <em>intermediate latent representation</em> $z$ rather than the raw input.
+          </p>
+        </div>
+
+        <div class="columns is-vcentered">
+          <div class="column is-6">
+            <h3 class="title is-5">1. Defining the Constraints</h3>
+            <p>
+              An ALE is a subset of latent features $\mathcal{E} \subseteq P \times L$ that entails a precondition $\phi_{\mathcal{E}}$. 
+              We verify that for any input $x$, if its latent representation satisfies these constraints, the classification remains invariant[cite: 157].
+            </p>
+            
+            <h3 class="title is-5">2. Bounding the Activation Space</h3>
+            <p>
+              To compute these constraints without expensive solvers, we leverage the geometry of the latent space. 
+              Since prototypes are fixed points, we can bound the activation scores of unobserved features using:
+            </p>
+            <ul>
+              <li>
+                <strong>Triangle Inequality:</strong> Uses known distances between prototypes to bound the similarity of a feature vector to all other prototypes.
+              </li>
+              <li>
+                <strong>Hypersphere Intersection:</strong> Models the latent feature vector as the intersection of hyperspheres centered at the prototypes, refining the radius of possible locations.
+              </li>
+            </ul>
+          </div>
+
+          <div class="column is-6 has-text-centered">
+            <img src="static/images/method_diagram.png" 
+                 alt="Visualizing constraints in latent space via hypersphere intersection"
+                 style="border: 1px solid #eee; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+            <p class="is-size-7 mt-2">
+              <em>Visualizing the bounding of the latent space using Hypersphere Intersection.</em>
+            </p>
+          </div>
+        </div>
+        
+        <div class="content has-text-justified">
+           <p>
+             By defining these valid regions (the <em>constrained activation space</em>), we mathematically guarantee that the model's 
+             prediction cannot change within the bounds defined by the explanation[cite: 248].
+           </p>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+  
   <section class="hero is-small">
     <div class="hero-body">
       <div class="container">
@@ -223,6 +283,31 @@
 }</code></pre>
     </div>
   </section>
+
+  <section class="section">
+  <div class="container is-max-desktop">
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Framework</h2>
+        <div class="content has-text-justified">
+          <p>
+            Our models were trained using <strong>CaBRNet</strong> (Case-Based Reasoning Network), 
+            an open-source library designed for developing and evaluating prototype-based models. 
+            CaBRNet ensures that the underlying prototype layers and decision mechanisms adhere 
+            strictly to the interpretable-by-design philosophy required for valid Abductive Latent Explanations.
+          </p>
+          <div class="has-text-centered">
+            <a href="https://github.com/aiser-team/cabrnet" target="_blank" class="button is-dark is-rounded">
+              <span class="icon"><i class="fab fa-github"></i></span>
+              <span>View CaBRNet Repository</span>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  </section>
+
 
   <footer class="footer">
     <div class="container">
