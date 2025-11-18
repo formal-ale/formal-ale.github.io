@@ -38,7 +38,8 @@
   
   <title>Formal Abductive Latent Explanations for Prototype-Based Networks</title>
   
-  <link rel="icon" type="image/x-icon" href="static/images/favicon.ico">
+  <!-- <link rel="icon" type="image/x-icon" href="static/images/favicon.ico"> -->
+  <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🍺</text></svg>">
   <link rel="stylesheet" href="static/css/bulma.min.css">
   <link rel="stylesheet" href="static/css/index.css">
   <link rel="stylesheet" href="static/css/bulma-carousel.min.css">
@@ -187,83 +188,190 @@
     </div>
   </section>
 
-  <section class="section">
+  <section class="section" style="background-color: #f5f5f5;">
   <div class="container is-max-desktop">
-    <div class="columns is-centered">
-      <div class="column is-full-width">
-        <h2 class="title is-3 has-text-centered">Methodology: Logical Constraints in Latent Space</h2>
-        
+    <div class="columns is-centered has-text-centered">
+      <div class="column is-four-fifths">
+        <h2 class="title is-3">Methodology: Formal Guarantees in Latent Space</h2>
         <div class="content has-text-justified">
           <p>
-            Traditional Formal Explainable AI defines explanations as a subset of input features (pixels) that satisfy a precondition 
-            $\phi(x)$. However, pixel-level explanations often fail to capture high-level semantics. We propose 
-            <strong>Abductive Latent Explanations (ALEs)</strong>, which define preconditions on the 
-            <em>intermediate latent representation</em> $z$ rather than the raw input.
+            Standard Formal Explainable AI (FXAI) defines explanations as preconditions on the input space (pixels). 
+            We introduce <strong>Abductive Latent Explanations (ALEs)</strong>, moving the formal guarantees to the latent space $\mathcal{Z}$. 
+            Our framework proves that a subset of latent features is sufficient to entail the model's prediction, regardless of the unobserved features.
           </p>
         </div>
+      </div>
+    </div>
 
-        <div class="columns is-vcentered">
-          <div class="column is-6">
-            <h3 class="title is-5">1. Defining the Constraints</h3>
+    <div class="columns is-centered">
+      
+      <div class="column is-4">
+        <div class="box" style="height: 100%;">
+          <div class="icon-box has-text-centered is-size-3 mb-3">
+            <i class="fas fa-cube"></i>
+          </div>
+          <h4 class="title is-5 has-text-centered">1. Latent Definition</h4>
+          <div class="content is-small">
             <p>
-              An ALE is a subset of latent features $\mathcal{E} \subseteq P \times L$ that entails a precondition $\phi_{\mathcal{E}}$. 
-              We verify that for any input $x$, if its latent representation satisfies these constraints, the classification remains invariant[cite: 157].
+              An ALE is a subset of latent features $\mathcal{E} \subseteq P \times L$ that defines a precondition $\phi_{\mathcal{E}}$ on the latent representation.
             </p>
-            
-            <h3 class="title is-5">2. Bounding the Activation Space</h3>
             <p>
-              To compute these constraints without expensive solvers, we leverage the geometry of the latent space. 
-              Since prototypes are fixed points, we can bound the activation scores of unobserved features using:
+              Unlike heuristic methods, we require <strong>Subset-Minimality</strong>: no proper subset of $\mathcal{E}$ can serve as a valid explanation. This ensures the explanation is both sufficient and compact.
+            </p>
+            <p class="is-italic has-text-grey">
+              "Any image $x$ whose latent representation matches $\mathcal{E}$ will result in the same classification $c$."
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="column is-4">
+        <div class="box" style="height: 100%;">
+          <div class="icon-box has-text-centered is-size-3 mb-3">
+            <i class="fas fa-project-diagram"></i>
+          </div>
+          <h4 class="title is-5 has-text-centered">2. Constraint Propagation</h4>
+          <div class="content is-small">
+            <p>
+              Since prototypes are fixed points in $\mathcal{Z}$, we can bound the activation scores of unobserved features using spatial geometry. We implement two paradigms:
             </p>
             <ul>
               <li>
-                <strong>Triangle Inequality:</strong> Uses known distances between prototypes to bound the similarity of a feature vector to all other prototypes.
+                <strong>Triangle Inequality:</strong> We use the known distances between prototypes $d(p_i, p_j)$ to bound the similarity of any feature vector $z_l$ to all other prototypes.
               </li>
               <li>
-                <strong>Hypersphere Intersection:</strong> Models the latent feature vector as the intersection of hyperspheres centered at the prototypes, refining the radius of possible locations.
+                <strong>Hypersphere Intersection:</strong> We model the latent vector as the intersection of hyperspheres centered at prototypes, refining the radius of possible locations ($r_3$) to tighten the bounds on the activation space.
               </li>
             </ul>
           </div>
+        </div>
+      </div>
 
-          <div class="column is-6 has-text-centered">
-            <img src="static/images/method_diagram.png" 
-                 alt="Visualizing constraints in latent space via hypersphere intersection"
-                 style="border: 1px solid #eee; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-            <p class="is-size-7 mt-2">
-              <em>Visualizing the bounding of the latent space using Hypersphere Intersection.</em>
+      <div class="column is-4">
+        <div class="box" style="height: 100%;">
+          <div class="icon-box has-text-centered is-size-3 mb-3">
+            <i class="fas fa-check-double"></i>
+          </div>
+          <h4 class="title is-5 has-text-centered">3. Formal Verification</h4>
+          <div class="content is-small">
+            <p>
+              We define a <strong>Constrained Activation Space</strong> $\alpha_{\mathcal{E}}$. To verify an explanation, we construct the <em>Maximally Class-Favoring Element</em> within these bounds.
+            </p>
+            <p>
+              The explanation is valid if and only if the predicted class $c$ dominates all other classes $k$ even in the worst-case scenario within the bounds:
+            </p>
+            <div class="has-text-centered" style="background: #eee; padding: 5px; border-radius: 4px; margin: 10px 0;">
+              $h_c(a^*) \ge h_k(a^*)$
+            </div>
+            <p>
+              This solver-free approach avoids the NP-completeness of pixel-level proofs.
             </p>
           </div>
         </div>
-        
-        <div class="content has-text-justified">
-           <p>
-             By defining these valid regions (the <em>constrained activation space</em>), we mathematically guarantee that the model's 
-             prediction cannot change within the bounds defined by the explanation[cite: 248].
-           </p>
-        </div>
       </div>
     </div>
+
+    <div class="columns is-centered mt-5">
+      <div class="column is-full-width has-text-centered">
+        <img src="static/images/method_diagram.png" 
+             alt="Hypersphere Intersection Approximation"
+             style="max-width: 80%; border: 1px solid #dbdbdb; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
+        <p class="is-size-7 mt-2">
+          <strong>Figure 2:</strong> Visualization of the <em>Hypersphere Intersection Approximation</em> used to bound the latent space.
+        </p>
+      </div>
+    </div>
+
   </div>
-</section>
+  </section>
 
   
-  <section class="hero is-small">
-    <div class="hero-body">
-      <div class="container">
-        <h2 class="title is-3 has-text-centered">Methodology & Results</h2>
-        <div id="results-carousel" class="carousel results-carousel">
-          <div class="item">
-            <img src="static/images/method_diagram.png" alt="Methodology Diagram" />
-            <h2 class="subtitle has-text-centered">ALE Construction Framework</h2>
-          </div>
-          <div class="item">
-             <img src="static/images/results_table.png" alt="Table 2 Results" />
-            <h2 class="subtitle has-text-centered">Summary of Average Explanation Sizes</h2>
-          </div>
-        </div>
-      </div>
+  <section class="section" style="background-color: #f5f5f5;">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Visualizing the Latent Bounds</h2>
+    <div class="content has-text-centered">
+      <p>
+        To certify an explanation without a solver, we must bound the location of the latent vector $z$.
+        We compare our two paradigms below. The <strong>Hypersphere Intersection</strong> (Center) yields significantly 
+        tighter bounds (blue dashed line) than the <strong>Triangle Inequality</strong> (Left), approximating the 
+        true distances (Right) more accurately[cite: 197, 210].
+      </p>
     </div>
+
+    <div class="columns is-centered is-vcentered">
+      
+      <div class="column is-4 has-text-centered">
+        <figure class="image">
+          <img src="static/images/geometric_figure_triangle.png" 
+               alt="Triangle Inequality Bounds" 
+               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
+        </figure>
+        <h4 class="subtitle is-6 mt-2">
+          <strong>Paradigm 1:</strong><br>Triangle Inequality
+        </h4>
+        <p class="is-size-7">
+          Loose bounds derived from distances between prototypes.<br>
+          <em>Range: [0.656, 1.600]</em>
+        </p>
+      </div>
+
+      <div class="column is-4 has-text-centered">
+        <figure class="image">
+          <img src="static/images/geometric_figure_intersection.png" 
+               alt="Hypersphere Intersection Bounds" 
+               style="border: 2px solid #209cee; border-radius: 5px; background: white; box-shadow: 0 0 10px rgba(32, 156, 238, 0.3);">
+        </figure>
+        <h4 class="subtitle is-6 mt-2">
+          <strong>Paradigm 2:</strong><br>Hypersphere Intersection
+        </h4>
+        <p class="is-size-7">
+          <strong>Ours.</strong> Tighter bounds by intersecting constraints.<br>
+          <em>Range: [0.839, 1.368]</em>
+        </p>
+      </div>
+
+      <div class="column is-4 has-text-centered">
+        <figure class="image">
+          <img src="static/images/geometric_figure_true.png" 
+               alt="True Distances Ground Truth" 
+               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
+        </figure>
+        <h4 class="subtitle is-6 mt-2">
+          Ground Truth
+        </h4>
+        <p class="is-size-7">
+          Actual distances $d(P, z)$ and $d(P, z')$ in the latent space.<br>
+          <em>Ref: 0.846 | 1.364</em>
+        </p>
+      </div>
+      
+    </div>
+  </div>
   </section>
+
+  <section class="section">
+  <div class="container is-max-desktop">
+    <h2 class="title is-3 has-text-centered">Experimental Results</h2>
+    <div class="content has-text-justified">
+      <p>
+        We evaluated our approach on diverse datasets (CIFAR-10, MNIST, Oxford Flowers, etc.). 
+        The table below summarizes the average explanation sizes. Note that <strong>Hypersphere Intersection</strong> 
+        frequently yields more compact explanations or tighter bounds compared to the top-k heuristic[cite: 289, 299].
+      </p>
+    </div>
+
+    <div class="box">
+      <figure class="image is-fullwidth">
+        <img src="static/images/results_table.png" alt="Table 2: Summary of Average Explanation Sizes">
+        <figcaption class="has-text-centered is-size-7 mt-2">
+          <strong>Table 2:</strong> Summary of Average Explanation Sizes (Correct / Incorrect) for each dataset. 
+          Best (smallest) results indicated in bold[cite: 282].
+        </figcaption>
+      </figure>
+    </div>
+  </div>
+  </section>
+
 
   <section class="section" id="BibTeX">
     <div class="container is-max-desktop content">
@@ -293,8 +401,8 @@
           <p>
             Our models were trained using <strong>CaBRNet</strong> (Case-Based Reasoning Network), 
             an open-source library designed for developing and evaluating prototype-based models. 
-            CaBRNet ensures that the underlying prototype layers and decision mechanisms adhere 
-            strictly to the interpretable-by-design philosophy required for valid Abductive Latent Explanations.
+            <!-- CaBRNet ensures that the underlying prototype layers and decision mechanisms adhere 
+            strictly to the interpretable-by-design philosophy required for valid Abductive Latent Explanations. -->
           </p>
           <div class="has-text-centered">
             <a href="https://github.com/aiser-team/cabrnet" target="_blank" class="button is-dark is-rounded">
