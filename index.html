@@ -72,6 +72,16 @@
     "keywords": ["XAI", "Formal Methods", "Prototype Networks", "Abductive Explanations"]
   }
   </script>
+  <script>
+  MathJax = {
+    tex: {
+      inlineMath: [['$', '$'], ['\\(', '\\)']],
+      displayMath: [['$$', '$$'], ['\\[', '\\]']],
+      processEscapes: true
+    }
+  };
+  </script>
+  <script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
 </head>
 <body>
 
@@ -190,14 +200,15 @@
 
   <section class="section" style="background-color: #f5f5f5;">
   <div class="container is-max-desktop">
+    
     <div class="columns is-centered has-text-centered">
       <div class="column is-four-fifths">
-        <h2 class="title is-3">Methodology: Formal Guarantees in Latent Space</h2>
+        <h2 class="title is-3">Methodology: Formal Abduction in Latent Space</h2>
         <div class="content has-text-justified">
           <p>
-            Standard Formal Explainable AI (FXAI) defines explanations as preconditions on the input space (pixels). 
-            We introduce <strong>Abductive Latent Explanations (ALEs)</strong>, moving the formal guarantees to the latent space $\mathcal{Z}$. 
-            Our framework proves that a subset of latent features is sufficient to entail the model's prediction, regardless of the unobserved features.
+            We propose a framework to generate <strong>Abductive Latent Explanations (ALEs)</strong>. 
+            Unlike pixel-based methods which are often NP-complete, our approach operates on the latent manifold $\mathcal{Z}$, 
+            leveraging the fixed positions of prototypes to generate solver-free guarantees.
           </p>
         </div>
       </div>
@@ -205,80 +216,70 @@
 
     <div class="columns is-centered">
       
-      <div class="column is-4">
+      <div class="column is-6">
         <div class="box" style="height: 100%;">
-          <div class="icon-box has-text-centered is-size-3 mb-3">
-            <i class="fas fa-cube"></i>
-          </div>
-          <h4 class="title is-5 has-text-centered">1. Latent Definition</h4>
-          <div class="content is-small">
+          <h4 class="title is-5 has-text-centered">1. Formal Definition (ALE)</h4>
+          <div class="content">
             <p>
-              An ALE is a subset of latent features $\mathcal{E} \subseteq P \times L$ that defines a precondition $\phi_{\mathcal{E}}$ on the latent representation.
+              Given an input $v$ and a predictor $\kappa$, an ALE is a subset of latent features $\mathcal{E} \subseteq P \times L$ 
+              that entails a precondition $\phi_{\mathcal{E}}$ satisfied by the input. The explanation is valid if it logically entails the prediction $c$:
             </p>
+            $$
+            \forall x \in \mathcal{F}, \quad \phi_{\mathcal{E}}(f(x), f(v)) \Rightarrow (\kappa(x) = c)
+            $$
             <p>
-              Unlike heuristic methods, we require <strong>Subset-Minimality</strong>: no proper subset of $\mathcal{E}$ can serve as a valid explanation. This ensures the explanation is both sufficient and compact.
-            </p>
-            <p class="is-italic has-text-grey">
-              "Any image $x$ whose latent representation matches $\mathcal{E}$ will result in the same classification $c$."
+              We specifically seek <strong>subset-minimal</strong> explanations, ensuring that removing any single feature-prototype pair 
+              $(z_l, p_j)$ from $\mathcal{E}$ breaks the sufficiency guarantee.
             </p>
           </div>
         </div>
       </div>
 
-      <div class="column is-4">
+      <div class="column is-6">
         <div class="box" style="height: 100%;">
-          <div class="icon-box has-text-centered is-size-3 mb-3">
-            <i class="fas fa-project-diagram"></i>
-          </div>
-          <h4 class="title is-5 has-text-centered">2. Constraint Propagation</h4>
-          <div class="content is-small">
+          <h4 class="title is-5 has-text-centered">2. Verification via Domination</h4>
+          <div class="content">
             <p>
-              Since prototypes are fixed points in $\mathcal{Z}$, we can bound the activation scores of unobserved features using spatial geometry. We implement two paradigms:
+              To verify an explanation without a solver, we construct the <strong>Maximally Class-Favoring Element</strong> $a^*$. 
+              We verify if the predicted class $c$ dominates an alternative class $k$ even under the worst-case bounds:
             </p>
-            <ul>
-              <li>
-                <strong>Triangle Inequality:</strong> We use the known distances between prototypes $d(p_i, p_j)$ to bound the similarity of any feature vector $z_l$ to all other prototypes.
-              </li>
-              <li>
-                <strong>Hypersphere Intersection:</strong> We model the latent vector as the intersection of hyperspheres centered at prototypes, refining the radius of possible locations ($r_3$) to tighten the bounds on the activation space.
-              </li>
-            </ul>
-          </div>
-        </div>
-      </div>
-
-      <div class="column is-4">
-        <div class="box" style="height: 100%;">
-          <div class="icon-box has-text-centered is-size-3 mb-3">
-            <i class="fas fa-check-double"></i>
-          </div>
-          <h4 class="title is-5 has-text-centered">3. Formal Verification</h4>
-          <div class="content is-small">
+            $$
+            h_k(a_{\mathcal{E}}^*(k,c)) - h_c(a_{\mathcal{E}}^*(k,c)) \le 0
+            $$
             <p>
-              We define a <strong>Constrained Activation Space</strong> $\alpha_{\mathcal{E}}$. To verify an explanation, we construct the <em>Maximally Class-Favoring Element</em> within these bounds.
-            </p>
-            <p>
-              The explanation is valid if and only if the predicted class $c$ dominates all other classes $k$ even in the worst-case scenario within the bounds:
-            </p>
-            <div class="has-text-centered" style="background: #eee; padding: 5px; border-radius: 4px; margin: 10px 0;">
-              $h_c(a^*) \ge h_k(a^*)$
-            </div>
-            <p>
-              This solver-free approach avoids the NP-completeness of pixel-level proofs.
+              If this holds for all $k \neq c$, the explanation is formally verified (Theorem 2). This turns the verification problem 
+              into a polynomial-time check rather than an expensive logical search.
             </p>
           </div>
         </div>
       </div>
     </div>
 
-    <div class="columns is-centered mt-5">
-      <div class="column is-full-width has-text-centered">
-        <img src="static/images/method_diagram.png" 
-             alt="Hypersphere Intersection Approximation"
-             style="max-width: 80%; border: 1px solid #dbdbdb; border-radius: 8px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
-        <p class="is-size-7 mt-2">
-          <strong>Figure 2:</strong> Visualization of the <em>Hypersphere Intersection Approximation</em> used to bound the latent space.
-        </p>
+    <div class="columns is-centered mt-4">
+      <div class="column is-10">
+        <div class="message is-info">
+          <div class="message-header">
+            <p>Bounding Mechanism: Hypersphere Intersection Approximation</p>
+          </div>
+          <div class="message-body has-text-centered">
+            <p class="mb-4 has-text-justified">
+              A key contribution is reducing the search space using geometry. We model the latent vector location as the intersection of hyperspheres. 
+              Let $H_1, H_2$ be hyperspheres with centers $C_1, C_2$ and radii $r_1, r_2$. The approximating hypersphere $H_3$ is defined by:
+            </p>
+            
+            $$
+            \begin{align}
+            r_3 &= \frac{2}{d}\sqrt{p(p-d)(p-r_1)(p-r_2)} \\
+            C_3 &= C_1 + \sqrt{r_1^2 - r_3^2} \cdot \frac{C_2 - C_1}{d}
+            \end{align}
+            $$
+            
+            <p class="mt-4 has-text-justified is-size-7">
+              Where $d = ||C_1 - C_2||_2$ is the distance between centers and $p = \frac{1}{2}(d+r_1+r_2)$ is the semi-perimeter.
+              <strong>Theorem 1</strong> guarantees that $H_3$ is the smallest possible hypersphere containing the intersection, ensuring valid and tight constraints for the ALE.
+            </p>
+          </div>
+        </div>
       </div>
     </div>
 
