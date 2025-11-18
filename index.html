@@ -295,7 +295,7 @@
         To certify an explanation without a solver, we must bound the location of the latent vector $z$.
         We compare our two paradigms below. The <strong>Hypersphere Intersection</strong> (Center) yields significantly 
         tighter bounds (blue dashed line) than the <strong>Triangle Inequality</strong> (Left), approximating the 
-        true distances (Right) more accurately[cite: 197, 210].
+        true distances (Right) more accurately.
       </p>
     </div>
 
@@ -319,8 +319,9 @@
       <div class="column is-4 has-text-centered">
         <figure class="image">
           <img src="static/images/geometric_figure_intersection.png" 
-               alt="Hypersphere Intersection Bounds" 
-               style="border: 2px solid #209cee; border-radius: 5px; background: white; box-shadow: 0 0 10px rgba(32, 156, 238, 0.3);">
+               alt="Hypersphere Intersection Bounds"
+               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
+               <!-- style="border: 2px solid #209cee; border-radius: 5px; background: white; box-shadow: 0 0 10px rgba(32, 156, 238, 0.3);"> -->
         </figure>
         <h4 class="subtitle is-6 mt-2">
           <strong>Paradigm 2:</strong><br>Hypersphere Intersection
@@ -341,7 +342,7 @@
           Ground Truth
         </h4>
         <p class="is-size-7">
-          Actual distances $d(P, z)$ and $d(P, z')$ in the latent space.<br>
+          True distances $d(P, z)$ and $d(P, z')$ in the latent space.<br>
           <em>Ref: 0.846 | 1.364</em>
         </p>
       </div>
@@ -357,7 +358,7 @@
       <p>
         We evaluated our approach on diverse datasets (CIFAR-10, MNIST, Oxford Flowers, etc.). 
         The table below summarizes the average explanation sizes. Note that <strong>Hypersphere Intersection</strong> 
-        frequently yields more compact explanations or tighter bounds compared to the top-k heuristic[cite: 289, 299].
+        frequently yields more compact explanations or tighter bounds compared to the top-k heuristic.
       </p>
     </div>
 
@@ -366,7 +367,7 @@
         <img src="static/images/results_table.png" alt="Table 2: Summary of Average Explanation Sizes">
         <figcaption class="has-text-centered is-size-7 mt-2">
           <strong>Table 2:</strong> Summary of Average Explanation Sizes (Correct / Incorrect) for each dataset. 
-          Best (smallest) results indicated in bold[cite: 282].
+          Best (smallest) results indicated in bold.
         </figcaption>
       </figure>
     </div>
@@ -383,13 +384,14 @@
           <span class="copy-text">Copy</span>
         </button>
       </div>
-      <pre id="bibtex-code"><code>@inproceedings{soria2026formal,
+      <pre>Coming soon!</pre>
+      <!-- <pre id="bibtex-code"><code>@inproceedings{soria2026formal,
   title={Formal Abductive Latent Explanations for Prototype-Based Networks},
   author={Soria, Jules and Chihani, Zakaria and Girard-Satabin, Julien and Grastien, Alban and Xu-Darme, Romain and Cancila, Daniela},
   booktitle={Proceedings of the AAAI Conference on Artificial Intelligence},
   year={2026},
   url={https://github.com/julsoria/ale}
-}</code></pre>
+}</code></pre> -->
     </div>
   </section>
 
