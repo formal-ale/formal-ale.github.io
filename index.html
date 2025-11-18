@@ -293,14 +293,29 @@
     <div class="content has-text-centered">
       <p>
         To certify an explanation without a solver, we must bound the location of the latent vector $z$.
-        We compare our two paradigms below. The <strong>Hypersphere Intersection</strong> (Center) yields significantly 
-        tighter bounds (blue dashed line) than the <strong>Triangle Inequality</strong> (Left), approximating the 
-        true distances (Right) more accurately.
+        We compare our two paradigms below. The <strong>Hypersphere Intersection</strong> (Right) yields potentially 
+        tighter bounds (blue dashed line) than the <strong>Triangle Inequality</strong> (Center), approximating the 
+        true distances (Left) more accurately.
       </p>
     </div>
 
     <div class="columns is-centered is-vcentered">
       
+      <div class="column is-4 has-text-centered">
+        <figure class="image">
+          <img src="static/images/geometric_figure_true.png" 
+               alt="True Distances Ground Truth" 
+               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
+        </figure>
+        <h4 class="subtitle is-6 mt-2">
+          Ground Truth
+        </h4>
+        <p class="is-size-7">
+          True distances $d(P, z)$ and $d(P, z')$ in the latent space.<br>
+          <em>Ref: 0.846 | 1.364</em>
+        </p>
+      </div>
+
       <div class="column is-4 has-text-centered">
         <figure class="image">
           <img src="static/images/geometric_figure_triangle.png" 
@@ -327,25 +342,12 @@
           <strong>Paradigm 2:</strong><br>Hypersphere Intersection
         </h4>
         <p class="is-size-7">
-          <strong>Ours.</strong> Tighter bounds by intersecting constraints.<br>
+          Tighter bounds by intersecting constraints.<br>
           <em>Range: [0.839, 1.368]</em>
         </p>
       </div>
 
-      <div class="column is-4 has-text-centered">
-        <figure class="image">
-          <img src="static/images/geometric_figure_true.png" 
-               alt="True Distances Ground Truth" 
-               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
-        </figure>
-        <h4 class="subtitle is-6 mt-2">
-          Ground Truth
-        </h4>
-        <p class="is-size-7">
-          True distances $d(P, z)$ and $d(P, z')$ in the latent space.<br>
-          <em>Ref: 0.846 | 1.364</em>
-        </p>
-      </div>
+      
       
     </div>
   </div>
