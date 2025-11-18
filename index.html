@@ -170,7 +170,7 @@
                  style="width: 100%; height: auto; max-width: 1000px; border-radius: 10px; box-shadow: 0 4px 8px rgba(0,0,0,0.1);">
         </div>
         <h2 class="subtitle has-text-centered" style="margin-top: 15px;">
-          <strong>Figure 1:</strong> Example of a top-1 explanation for a ProtoPNet with five prototypical parts for two classes.
+          <strong>Figure 1:</strong> Example of a top-$1$ explanation for a ProtoPNet with five prototypical parts for two classes.
           We propose <strong>ALEs</strong> to bridge the gap between Formal XAI and prototype-based learning.
         </h2>
       </div>
@@ -299,13 +299,13 @@
       </p>
     </div>
 
-    <div class="columns is-centered is-vcentered">
+    <div class="columns is-centered">
       
       <div class="column is-4 has-text-centered">
-        <figure class="image">
+        <figure class="image is-inline-block">
           <img src="static/images/geometric_figure_true.png" 
                alt="True Distances Ground Truth" 
-               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
+               style="height: 300px; object-fit: contain; width: auto; border: 1px solid #bbb; border-radius: 5px; background: white;">
         </figure>
         <h4 class="subtitle is-6 mt-2">
           Ground Truth
@@ -317,10 +317,10 @@
       </div>
 
       <div class="column is-4 has-text-centered">
-        <figure class="image">
+        <figure class="image is-inline-block">
           <img src="static/images/geometric_figure_triangle.png" 
                alt="Triangle Inequality Bounds" 
-               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
+               style="height: 300px; object-fit: contain; width: auto; border: 1px solid #bbb; border-radius: 5px; background: white;">
         </figure>
         <h4 class="subtitle is-6 mt-2">
           <strong>Paradigm 1:</strong><br>Triangle Inequality
@@ -332,11 +332,10 @@
       </div>
 
       <div class="column is-4 has-text-centered">
-        <figure class="image">
+        <figure class="image is-inline-block">
           <img src="static/images/geometric_figure_intersection.png" 
                alt="Hypersphere Intersection Bounds"
-               style="border: 1px solid #bbb; border-radius: 5px; background: white;">
-               <!-- style="border: 2px solid #209cee; border-radius: 5px; background: white; box-shadow: 0 0 10px rgba(32, 156, 238, 0.3);"> -->
+               style="height: 300px; object-fit: contain; width: auto; border: 1px solid #bbb; border-radius: 5px; background: white;">
         </figure>
         <h4 class="subtitle is-6 mt-2">
           <strong>Paradigm 2:</strong><br>Hypersphere Intersection
@@ -347,11 +346,9 @@
         </p>
       </div>
 
-      
-      
     </div>
   </div>
-  </section>
+</section>
 
   <section class="section">
   <div class="container is-max-desktop">
@@ -359,8 +356,8 @@
     <div class="content has-text-justified">
       <p>
         We evaluated our approach on diverse datasets (CIFAR-10, MNIST, Oxford Flowers, etc.). 
-        The table below summarizes the average explanation sizes. Note that <strong>Hypersphere Intersection</strong> 
-        frequently yields more compact explanations or tighter bounds compared to the top-k heuristic.
+        The table below summarizes the average explanation sizes. Note that Spatial ALEs 
+        frequently yields more compact explanations or tighter bounds compared to the top-$k$ heuristic.
       </p>
     </div>
 
@@ -424,8 +421,8 @@
   <div class="container is-max-desktop content">
     <h2 class="title">Acknowledgements</h2>
     <p>
-      This publication was made possible by the use of the <strong>FactoryIA supercomputer</strong>, financially supported by the Ile-De-France Regional Council[cite: 315].
-      This work was also supported by the <strong>SAIF project</strong>, funded by the "France 2030" government investment plan managed by the French National Research Agency, under the reference <strong>ANR-23-PEIA-0006</strong>[cite: 316].
+      This publication was made possible by the use of the <strong>FactoryIA supercomputer</strong>, financially supported by the Ile-De-France Regional Council.
+      This work was also supported by the <strong>SAIF project</strong>, funded by the "France 2030" government investment plan managed by the French National Research Agency, under the reference <strong>ANR-23-PEIA-0006</strong>.
     </p>
   </div>
   </section>
